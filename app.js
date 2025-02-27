@@ -16,9 +16,16 @@ function agregarAmigo() {
         nombres.push(valor)
         nombreAmigo.value = "";
         console.log(nombres)
-        
+        mostrarAmigos()
     }
 }
 
-
+function mostrarAmigos(){
+    listaAmigos.innerText = ""
+    for (let i = 0; i < nombres.length; i++) {
+        let agregaLi = document.createElement('li');
+        agregaLi.textContent= nombres[i];
+        listaAmigos.appendChild(agregaLi);
+    }
+}
 
