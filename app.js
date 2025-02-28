@@ -2,6 +2,7 @@
 //Listas
 let nombres = [];
 let numerosSorteados=[]
+let indicesBloqueados = [];
 
 
 let nombreAmigo = document.getElementById('amigo')
@@ -12,10 +13,15 @@ let amigoSorteado = document.getElementById('resultado')
 let botonSorteo = document.getElementById('btn-sorteo')
 let botonAñadir = document.querySelector('button')
 let botonSiguiente = document.getElementById('btn-siguiente')
+let botonSoyYo = document.getElementById('btn-resorteo')
 
 let valor = nombreAmigo.value
 let amigoSecreto = 0
 
+//Descartivar botones iniciales
+botonSoyYo.disabled = true
+botonSiguiente.disabled = true
+botonSorteo.disabled = false
 
 botonAñadir.addEventListener('click', agregarAmigo)
 
@@ -41,45 +47,87 @@ function mostrarAmigos(){
 
 function sortearAmigo(){
     amigoSorteado.innerText = ""
-    
+    indicesBloqueados = [];
 
     if (nombres.length < 2){
         alert("Debes ingresar al menos dos amigos para sorterar")
     } else {
         amigoSecreto = Math.floor(Math.random() * nombres.length)
-        while (numerosSorteados.includes(amigoSecreto)) {
-            amigoSecreto = Math.floor(Math.random() * nombres.length)
-            if (numerosSorteados.length == nombres.length){
-                break;
-            }
-        }
-        numerosSorteados.push(amigoSecreto)
-        console.log(numerosSorteados)
-        console.log(amigoSecreto)
-        let agregaResultado = document.createElement('p')
-        if (numerosSorteados.length==nombres.length+1){
-            agregaResultado.textContent = `Ya se han sorteado todos los amigos, éxito`
-            botonSorteo.disabled = true
-            botonAñadir.disabled = true
-            botonSiguiente.disabled = true
-        } else{
-            agregaResultado.textContent = `Tu amigo secreto es ${nombres[amigoSecreto]}`
-            botonSorteo.disabled = true
-        }
-        amigoSorteado.appendChild(agregaResultado)
-        return
+        generarAmigoSecreto()
+        
     }
+    botonSoyYo.disabled = false
+    botonSiguiente.disabled = false
+    verificarBotones()
 }
 
 function siguiente(){
+    
     amigoSorteado.innerText=""
+    indicesBloqueados = [];
     botonSorteo.disabled = false
+    botonSoyYo.disabled = true
+    botonSiguiente.disabled = true
+    verificarBotones()
 }
 
 function soyYo(){
-    //Tome el ultimo valor agregado y lo guarde en una variable
-    persona = numerosSorteados.pop();
-    console.log(persona);
+    amigoSorteado.innerText = ""
+    botonSoyYo.disabled = true
+    // Remover el último índice y añadirlo a bloqueados
+    let persona = numerosSorteados.pop();
+    indicesBloqueados.push(persona);
     
-    //Generar otro número aleatorio y si es igual que el anterior hacer un bucle hasta que sea diferente 
+    // Generar nuevo índice que no esté en numerosSorteados ni en bloqueados
+    do {
+        amigoSecreto = Math.floor(Math.random() * nombres.length);
+    } while (numerosSorteados.includes(amigoSecreto) || indicesBloqueados.includes(amigoSecreto));
+    
+    generarAmigoSecreto()
+    verificarBotones()
 }
+
+function generarAmigoSecreto(){
+
+    while (numerosSorteados.includes(amigoSecreto)) {
+        amigoSecreto = Math.floor(Math.random() * nombres.length)
+        if (numerosSorteados.length == nombres.length){
+            break;
+        }
+    }
+    numerosSorteados.push(amigoSecreto)
+    console.log(numerosSorteados)
+    console.log(amigoSecreto)
+    let agregaResultado = document.createElement('p')
+    if (numerosSorteados.length==nombres.length+1){
+        agregaResultado.textContent = `Ya se han sorteado todos los amigos, éxito`
+        botonSorteo.disabled = true
+        botonAñadir.disabled = true
+        botonSiguiente.disabled = true
+    } else{
+        agregaResultado.textContent = `Tu amigo secreto es ${nombres[amigoSecreto]}`
+        botonSorteo.disabled = true
+    }
+    amigoSorteado.appendChild(agregaResultado)
+    return
+}
+
+function verificarBotones(){
+    if (botonSorteo.disabled == true){
+        botonSorteo.className ='button-draw-disable'
+    } else {
+        botonSorteo.className ='button-draw'
+    }
+    if (botonSiguiente.disabled == true){
+        botonSiguiente.className ='button-draw-disable'
+    }else {
+        botonSiguiente.className ='button-draw'
+    }
+    if (botonSoyYo.disabled == true){
+        botonSoyYo.className ='button-draw-disable'
+    }else {
+        botonSoyYo.className ='button-draw'
+    }
+}
+
+verificarBotones()

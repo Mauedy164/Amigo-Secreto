@@ -89,6 +89,8 @@ body {
 
 .button-container {
     width: 300px;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
@@ -159,4 +161,22 @@ ul {
 
 .button-draw:hover {
     background-color: var(--color-button-hover);
+}
+
+.button-draw-disable{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 40px;
+    color: black;
+    background-color: grey;
+    font-size: 16px;
+}
+
+.button-draw-disable img {
+    margin-right: 40px;
+}
+
+.button-draw-disable:hover {
+    background-color: rgb(59, 59, 59);
 }
