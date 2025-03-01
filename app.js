@@ -1,5 +1,5 @@
 
-//Listas
+
 let nombres = [];
 let numerosSorteados=[]
 let indicesBloqueados = [];
@@ -9,7 +9,7 @@ let nombreAmigo = document.getElementById('amigo')
 let listaAmigos = document.getElementById('listaAmigos')
 let amigoSorteado = document.getElementById('resultado')
 
-//Botones
+
 let botonSorteo = document.getElementById('btn-sorteo')
 let botonAñadir = document.querySelector('button')
 let botonSiguiente = document.getElementById('btn-siguiente')
@@ -18,7 +18,7 @@ let botonSoyYo = document.getElementById('btn-resorteo')
 let valor = nombreAmigo.value
 let amigoSecreto = 0
 
-//Descartivar botones iniciales
+
 botonSoyYo.disabled = true
 botonSiguiente.disabled = true
 botonSorteo.disabled = false
@@ -74,11 +74,11 @@ function siguiente(){
 function soyYo(){
     amigoSorteado.innerText = ""
     botonSoyYo.disabled = true
-    // Remover el último índice y añadirlo a bloqueados
+    
     let persona = numerosSorteados.pop();
     indicesBloqueados.push(persona);
     
-    // Generar nuevo índice que no esté en numerosSorteados ni en bloqueados
+   
     do {
         amigoSecreto = Math.floor(Math.random() * nombres.length);
     } while (numerosSorteados.includes(amigoSecreto) || indicesBloqueados.includes(amigoSecreto));
